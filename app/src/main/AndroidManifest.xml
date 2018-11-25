@@ -30,10 +30,9 @@
                 android:name="com.journeyapps.barcodescanner.CaptureActivity"
                 android:screenOrientation="portrait"
                 tools:replace="screenOrientation"/>
-        <activity
-                android:name=".ResultActivity"
-                android:label="@string/title_activity_result"
-                android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".ResultActivity"
+                  android:label="@string/title_activity_result"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

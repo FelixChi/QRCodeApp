@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
     }
-    private fun gotoScanner() {
+    fun gotoScanner() {
         intentIntegrator?.setCaptureActivity(ScannerActivity::class.java)
             ?.setOrientationLocked(true)
             ?.initiateScan()
@@ -71,9 +71,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             intent.putExtra(Intents.Scan.RESULT, content)
             startActivity(intent)
         }
-    }
-    private fun saveResult(result: IntentResult) {
-        //Save Scan result local
     }
 
     override fun onBackPressed() {
