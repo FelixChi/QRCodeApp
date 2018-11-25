@@ -1,7 +1,9 @@
-package com.felixchi.qrcodeapp
+package com.felixchi.qrcodeapp.helper
 
 /*
+    Ref:
     https://medium.com/@krupalshah55/manipulating-shared-prefs-with-kotlin-just-two-lines-of-code-29af62440285
+    https://blogs.naxam.net/sharedpreferences-made-easy-with-kotlin-generics-extensions-6189d8902fb0
  */
 import android.content.Context
 import android.content.SharedPreferences

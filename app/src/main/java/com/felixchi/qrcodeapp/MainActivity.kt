@@ -11,6 +11,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import com.felixchi.qrcodeapp.helper.PreferenceHelper
+import com.felixchi.qrcodeapp.helper.PreferenceHelper.get
+import com.felixchi.qrcodeapp.helper.PreferenceHelper.set
+
 import com.google.zxing.client.android.Intents
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
@@ -56,6 +60,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        intentIntegrator?.setOrientationLocked(true)
 //        intentIntegrator?.initiateScan()
     }
+    fun saveScanResult(result: IntentResult) {
+        val prefs = PreferenceHelper.defaultPrefs(this)
+        
+        prefs["SCAN_RESULT"] = result.contents;
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         var result = IntentIntegrator.parseActivityResult(resultCode, data)
@@ -65,6 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             Log.d("ScanCode", "Scan Complete")
             //show Scan result
+            saveScanResult(result)
             var content = result.contents
             val intent = Intent(this@MainActivity, ResultActivity::class.java)
             intent.putExtra(Intents.Scan.RESULT_FORMAT, result.formatName)
