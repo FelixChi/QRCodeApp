@@ -11,15 +11,19 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import com.felixchi.qrcodeapp.data.RecordData
 import com.felixchi.qrcodeapp.helper.PreferenceHelper
 import com.felixchi.qrcodeapp.helper.PreferenceHelper.get
 import com.felixchi.qrcodeapp.helper.PreferenceHelper.set
+import com.google.gson.Gson
+import com.google.gson.JsonArray
 
 import com.google.zxing.client.android.Intents
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -49,6 +53,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //goto Scanner activity
             gotoScanner()
         }
+        //
+        imgv_records.setOnClickListener {
+            //goto records
+            val intent = Intent(this@MainActivity, RecordListActivity::class.java)
+            startActivity(intent)
+        }
 
     }
     fun gotoScanner() {
@@ -60,10 +70,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        intentIntegrator?.setOrientationLocked(true)
 //        intentIntegrator?.initiateScan()
     }
+    // Save Scan result
     fun saveScanResult(result: IntentResult) {
         val prefs = PreferenceHelper.defaultPrefs(this)
-        
-        prefs["SCAN_RESULT"] = result.contents;
+        //
+        var records:String ?= prefs["SCAN_RECORD"]
+        val recordList: MutableList<RecordData> =
+            if(!records.isNullOrEmpty()) {
+                Gson().fromJson(records, Array<RecordData>::class.java).toMutableList()
+            } else {
+                mutableListOf()
+            }
+        //
+        val record = RecordData(result?.contents, result?.formatName, 0, 1)
+        recordList.add(record)
+        records = Gson().toJson(recordList, Array<RecordData>::class.java)
+        //
+        prefs["SCAN_RECORD"] = records;
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
