@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.felixchi.qrcodeapp.R
 import com.felixchi.qrcodeapp.data.RecordData
 import kotlinx.android.synthetic.main.record_item_layout.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RecordAdapter (var items: ArrayList<RecordData>, val context: Context): RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,7 +23,10 @@ class RecordAdapter (var items: ArrayList<RecordData>, val context: Context): Re
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder?.tvFormat?.text = items[position].format
         holder?.tvContent?.text = items[position].content
-        holder?.tvDate?.text = items[position].date.toString()
+//        val dateString = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(date)
+        //date
+        val dateString = SimpleDateFormat("dd-mm-yyyy HH:mm", Locale.getDefault()).format(items[position].date)
+        holder?.tvDate?.text = dateString
     }
 }
 

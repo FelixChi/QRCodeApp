@@ -24,6 +24,8 @@ import com.google.zxing.integration.android.IntentResult
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -82,9 +84,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 mutableListOf()
             }
         //
-        val record = RecordData(result?.contents, result?.formatName, 0, 1)
+        val  date = Calendar.getInstance().timeInMillis
+        //Date Format:
+        val dateString = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(date)
+        Log.d("Scan", "$date > $dateString")
+        val record = RecordData(result?.contents, result?.formatName, date, 1)
         recordList.add(record)
-        records = Gson().toJson(recordList, Array<RecordData>::class.java)
+        records = Gson().toJson(recordList)
         //
         prefs["SCAN_RECORD"] = records;
     }

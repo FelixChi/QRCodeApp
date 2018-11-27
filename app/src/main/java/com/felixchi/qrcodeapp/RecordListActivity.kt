@@ -24,9 +24,13 @@ class RecordListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         //load records
         val json:String ?= PreferenceHelper.defaultPrefs(this)["SCAN_RECORD"]
-        val recordList: ArrayList<RecordData> = Gson().fromJson(json, Array<RecordData>::class.java).toMutableList() as ArrayList<RecordData>
+        val recordList: ArrayList<RecordData> = if(!json.isNullOrEmpty()) {
+            Gson().fromJson(json, Array<RecordData>::class.java).toMutableList() as ArrayList<RecordData>
+        } else {
+            mutableListOf<RecordData>() as ArrayList<RecordData>
+        }
         //recyclerview
-        rv_record_list.layoutManager = LinearLayoutManager(this)
+        rv_record_list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
         rv_record_list.adapter = RecordAdapter(recordList, this)
     }
 
